@@ -1,14 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
-</head>
-<script src="./assets/js/script.js"></script>
-<body>
-    hello world
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            rel="stylesheet"
+            href="/Users/qeddy/Desktop/bootstrap-5.1.3-dist/css/bootstrap.min.css"
+        />
+        <!-- <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+        /> -->
+        <link rel="stylesheet" href="./assets/css/style.css" />
+    </head>
+
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid" style="justify-content:center">
+            <a class="navbar-brand" href="#">
+                <!-- TODO Question - is it an acceptable approach to use inline styling to override bootstrap's styling? -->
+                <img
+                    src="./assets/images/cycle.svg"
+                    alt=""
+                    width="50"
+                    height="48"                    
+                    class="d-inline-block align-text-top"
+                />
+            </a>
+            <h1 style="margin-bottom: 0; color: whitesmoke;">Weather Dashboard</h1>
+        </div>
+    </nav>
+
+    <body>
+        <div class="row">
+            <!-- TODO Add some margin to these two widgets -->
+            <section class="col-12 col-md-4 col-lg-3" style="margin-top: 10px;">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">🏙</span>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="City Search"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                    />
+                </div>
+                <!-- TODO find a widget that is selectable -->
+                <!-- TODO Store the selected city and the city list in local storage -->
+                <ul class="list-group">
+                    <li class="list-group-item active" aria-current="true">
+                        Atlanta
+                    </li>
+                    <li class="list-group-item">Los Angles</li>
+                    <li class="list-group-item">New York</li>
+                    <li class="list-group-item">Boston</li>
+                    <li class="list-group-item">San Francisco</li>
+                    <li class="list-group-item">Miami</li>
+                    <li class="list-group-item">Shelter Island</li>
+                    <li class="list-group-item">Seattle</li>
+                    <li class="list-group-item">Chicago</li>
+                </ul>
+            </section>
+
+            <section class="col-12 col-md-8 col-lg-9" style="margin-top: 10px;">
+                <div class="row">
+                    
+                    <div class="card" style="width: 30rem">
+                        <div class="card-body">
+                            <h3 class="card-title">Atlanta</h3>
+                            <p class="card-text">☀️</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temp</li>
+                            <li class="list-group-item">Wind</li>
+                            <li class="list-group-item">Humidity</li>
+                        </ul>
+                    </div>
+                    <h5 style="margin-top: 20px; margin-left: 16px;">5 Day Forecast</h5>
+                </div>
+
+                <div class="row">
+                    <!-- Day #1 -->
+                    <div class="card" style="width: 10rem">
+                        <div class="card-body">
+                            <h5 class="card-title">3/27</h5>
+                            <p class="card-text">☀️</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temp</li>
+                            <li class="list-group-item">Wind</li>
+                            <li class="list-group-item">Humidity</li>
+                        </ul>
+                    </div>
+                    <!-- Day #2 -->
+                    <div class="card" style="width: 10rem">
+                        <div class="card-body">
+                            <h5 class="card-title">3/27</h5>
+                            <p class="card-text">☀️</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temp</li>
+                            <li class="list-group-item">Wind</li>
+                            <li class="list-group-item">Humidity</li>
+                        </ul>
+                    </div>
+                    <!-- Day #3 -->
+                    <div class="card" style="width: 10rem">
+                        <div class="card-body">
+                            <h5 class="card-title">3/27</h5>
+                            <p class="card-text">☀️</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temp</li>
+                            <li class="list-group-item">Wind</li>
+                            <li class="list-group-item">Humidity</li>
+                        </ul>
+                    </div>
+                    <!-- Day #4 -->
+                    <div class="card" style="width: 10rem">
+                        <div class="card-body">
+                            <h5 class="card-title">3/27</h5>
+                            <p class="card-text">☀️</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temp</li>
+                            <li class="list-group-item">Wind</li>
+                            <li class="list-group-item">Humidity</li>
+                        </ul>
+                    </div>
+                    <!-- Day #5 -->
+                    <div class="card" style="width: 10rem">
+                        <div class="card-body">
+                            <h5 class="card-title">3/27</h5>
+                            <p class="card-text">☀️</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Temp</li>
+                            <li class="list-group-item">Wind</li>
+                            <li class="list-group-item">Humidity</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+
+    <!-- Button trigger modal -->
+    <!-- <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+    >
+        Launch demo modal
+    </button> -->
+
+    <!-- Modal -->
+    <!-- <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title
+                    </h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">...</div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <script src="/Users/qeddy/Desktop/bootstrap-5.1.3-dist/bootstrap.bundle.min.js"></script>
+
+    <!-- <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"
+    ></script> -->
+    <script src="./assets/js/script.js"></script>
 </html>
