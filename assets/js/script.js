@@ -59,3 +59,19 @@ function saveAsSelected() {
 searchCityButtonEl.on("click", function (event) {
     event.preventDefault();
 })
+
+/**
+ * !Init function
+ */
+
+
+
+///
+function getAverage(numbers) {
+    numbers.getAverage;
+}
+
+
+myNumbers = [1, 2, 3]
+
+console.log(getAverage(myNumbers)); 

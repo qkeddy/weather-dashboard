@@ -5,146 +5,163 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <link
+        <!-- <link
             rel="stylesheet"
             href="/Users/qeddy/Desktop/bootstrap-5.1.3-dist/css/bootstrap.min.css"
-        />
-        <!-- <link
+        /> -->
+        <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
             crossorigin="anonymous"
-        /> -->
+        />
         <link rel="stylesheet" href="./assets/css/style.css" />
     </head>
 
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid" style="justify-content:center">
-            <a class="navbar-brand" href="#">
-                <!-- TODO Question - is it an acceptable approach to use inline styling to override bootstrap's styling? -->
-                <img
-                    src="./assets/images/cycle.svg"
-                    alt=""
-                    width="50"
-                    height="48"                    
-                    class="d-inline-block align-text-top"
-                />
-            </a>
-            <h1 style="margin-bottom: 0; color: whitesmoke;">Weather Dashboard</h1>
-        </div>
-    </nav>
-
     <body>
-        <div class="row">
-            <!-- TODO Add some margin to these two widgets -->
-            <section class="col-12 col-md-4 col-lg-3" style="margin-top: 10px;">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">🏙</span>
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="City Search"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid" style="justify-content: center">
+                <a class="navbar-brand" href="#">
+                    <!-- TODO Question - is it an acceptable approach to use inline styling to override bootstrap's styling? -->
+                    <img
+                        src="./assets/images/cycle.svg"
+                        alt=""
+                        width="50"
+                        height="48"
+                        class="d-inline-block align-text-top"
                     />
-                </div>
-                <!-- TODO find a widget that is selectable -->
-                <!-- TODO Store the selected city and the city list in local storage -->
-                <ul class="list-group">
-                    <li class="list-group-item active" aria-current="true">
-                        Atlanta
-                    </li>
-                    <li class="list-group-item">Los Angles</li>
-                    <li class="list-group-item">New York</li>
-                    <li class="list-group-item">Boston</li>
-                    <li class="list-group-item">San Francisco</li>
-                    <li class="list-group-item">Miami</li>
-                    <li class="list-group-item">Shelter Island</li>
-                    <li class="list-group-item">Seattle</li>
-                    <li class="list-group-item">Chicago</li>
-                </ul>
-            </section>
+                </a>
+                <h1 style="margin-bottom: 0; color: whitesmoke">
+                    Weather Dashboard
+                </h1>
+            </div>
+        </nav>
 
-            <section class="col-12 col-md-8 col-lg-9" style="margin-top: 10px;">
-                <div class="row">
-                    
-                    <div class="card" style="width: 30rem">
-                        <div class="card-body">
-                            <h3 class="card-title">Atlanta</h3>
-                            <p class="card-text">☀️</p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Temp</li>
-                            <li class="list-group-item">Wind</li>
-                            <li class="list-group-item">Humidity</li>
-                        </ul>
+        <div class="px-3">
+            <div class="row">
+                <!-- TODO Add some margin to these two widgets -->
+                <section
+                    class="col-12 col-md-4 col-lg-3"
+                    style="margin-top: 10px"
+                >
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1"
+                            >🏙</span
+                        >
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="City Search"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                        />
                     </div>
-                    <h5 style="margin-top: 20px; margin-left: 16px;">5 Day Forecast</h5>
-                </div>
+                    <!-- TODO find a widget that is selectable -->
+                    <!-- TODO Store the selected city and the city list in local storage -->
+                    <ul class="list-group">
+                        <li class="list-group-item active" aria-current="true">
+                            Atlanta
+                        </li>
+                        <li class="list-group-item">Los Angles</li>
+                        <li class="list-group-item">New York</li>
+                        <li class="list-group-item">Boston</li>
+                        <li class="list-group-item">San Francisco</li>
+                        <li class="list-group-item">Miami</li>
+                        <li class="list-group-item">Shelter Island</li>
+                        <li class="list-group-item">Seattle</li>
+                        <li class="list-group-item">Chicago</li>
+                    </ul>
+                </section>
 
-                <div class="row">
-                    <!-- Day #1 -->
-                    <div class="card" style="width: 10rem">
-                        <div class="card-body">
-                            <h5 class="card-title">3/27</h5>
-                            <p class="card-text">☀️</p>
+                <section
+                    class="col-12 col-md-8 col-lg-9"
+                    style="margin-top: 10px"
+                >
+                    <div class="flex-row justify-content-center">
+                        <div
+                            class="card"
+                            style="margin-right: 30px; width: 90%"
+                        >
+                            <div class="card-body">
+                                <h3 class="card-title">Atlanta</h3>
+                                <p class="card-text">☀️</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Temp</li>
+                                <li class="list-group-item">Wind</li>
+                                <li class="list-group-item">Humidity</li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Temp</li>
-                            <li class="list-group-item">Wind</li>
-                            <li class="list-group-item">Humidity</li>
-                        </ul>
+                        <h5 style="margin-top: 20px; margin-left: 16px">
+                            5 Day Forecast
+                        </h5>
                     </div>
-                    <!-- Day #2 -->
-                    <div class="card" style="width: 10rem">
-                        <div class="card-body">
-                            <h5 class="card-title">3/27</h5>
-                            <p class="card-text">☀️</p>
+
+                    <!-- d-flex is indicating "display flex & flex-row -- means use row" -->
+                    <div class="d-flex flex-row">
+                        <!-- Day #1 -->
+                        <div class="card" style="width: 18%">
+                            <div class="card-body">
+                                <h5 class="card-title">3/27</h5>
+                                <p class="card-text">☀️</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Temp</li>
+                                <li class="list-group-item">Wind</li>
+                                <li class="list-group-item">Humidity</li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Temp</li>
-                            <li class="list-group-item">Wind</li>
-                            <li class="list-group-item">Humidity</li>
-                        </ul>
-                    </div>
-                    <!-- Day #3 -->
-                    <div class="card" style="width: 10rem">
-                        <div class="card-body">
-                            <h5 class="card-title">3/27</h5>
-                            <p class="card-text">☀️</p>
+                        <!-- Day #2 -->
+                        <div class="card" style="width: 18%">
+                            <div class="card-body">
+                                <h5 class="card-title">3/27</h5>
+                                <p class="card-text">☀️</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Temp</li>
+                                <li class="list-group-item">Wind</li>
+                                <li class="list-group-item">Humidity</li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Temp</li>
-                            <li class="list-group-item">Wind</li>
-                            <li class="list-group-item">Humidity</li>
-                        </ul>
-                    </div>
-                    <!-- Day #4 -->
-                    <div class="card" style="width: 10rem">
-                        <div class="card-body">
-                            <h5 class="card-title">3/27</h5>
-                            <p class="card-text">☀️</p>
+                        <!-- Day #3 -->
+                        <div class="card" style="width: 18%">
+                            <div class="card-body">
+                                <h5 class="card-title">3/27</h5>
+                                <p class="card-text">☀️</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Temp</li>
+                                <li class="list-group-item">Wind</li>
+                                <li class="list-group-item">Humidity</li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Temp</li>
-                            <li class="list-group-item">Wind</li>
-                            <li class="list-group-item">Humidity</li>
-                        </ul>
-                    </div>
-                    <!-- Day #5 -->
-                    <div class="card" style="width: 10rem">
-                        <div class="card-body">
-                            <h5 class="card-title">3/27</h5>
-                            <p class="card-text">☀️</p>
+                        <!-- Day #4 -->
+                        <div class="card" style="width: 18%">
+                            <div class="card-body">
+                                <h5 class="card-title">3/27</h5>
+                                <p class="card-text">☀️</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Temp</li>
+                                <li class="list-group-item">Wind</li>
+                                <li class="list-group-item">Humidity</li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Temp</li>
-                            <li class="list-group-item">Wind</li>
-                            <li class="list-group-item">Humidity</li>
-                        </ul>
+                        <!-- Day #5 -->
+                        <div class="card" style="width: 18%">
+                            <div class="card-body">
+                                <h5 class="card-title">3/27</h5>
+                                <p class="card-text">☀️</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Temp</li>
+                                <li class="list-group-item">Wind</li>
+                                <li class="list-group-item">Humidity</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
     </body>
 
@@ -196,12 +213,12 @@
         </div>
     </div> -->
 
-    <script src="/Users/qeddy/Desktop/bootstrap-5.1.3-dist/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/Users/qeddy/Desktop/bootstrap-5.1.3-dist/bootstrap.bundle.min.js"></script> -->
 
-    <!-- <script
+    <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"
-    ></script> -->
+    ></script>
     <script src="./assets/js/script.js"></script>
 </html>
