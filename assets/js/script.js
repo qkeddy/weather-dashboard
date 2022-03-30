@@ -2,7 +2,7 @@
 apiKey = "64af714a02193243ce10430d0259b40a";
 
 // Declare page elements
-cityListEl = document.getElementsByClassName("list-group");
+cityListEl = document.querySelector("#cities");
 searchCityButtonEl = document.querySelector("button");
 
 /**
@@ -11,20 +11,35 @@ searchCityButtonEl = document.querySelector("button");
 function loadStoredCities() {
     // Get list of cities from local storage
     cityList = JSON.parse(localStorage.getItem("cityList"));
-    console.log("Cities", cityList);
+    if (!cityList) {
+        console.log("No cities are stored in local storage");
+    }
+    //console.log(cityList);
 
     // Loop over each city and add to city list and get the latest weather
-    // cities.forEach((element) => {
-    //     // Create a new list item
-    //     const cityEl = document.createElement("li");
-    //     cityEl.textContent = element;
-    //     cityListEl.appendChild(cityEl);
+    cityList.forEach((element) => {
+        // Create a new list item
+        const cityEl = document.createElement("li");
+        cityEl.textContent = element.name;
+        cityEl.classList = "list-group-item";
+        cityEl.id = element.name;
+        cityEl.attributes = "city";
+        cityListEl.appendChild(cityEl);
 
-    //     // Make each element clickable
-    //     cityEl.addEventListener("click", function () {
+        // Make each element clickable
+        cityEl.addEventListener("click", function (event) {
+            console.log(cityListEl);
 
-    //     })
-    // });
+
+            // ?? How do I deselect the cities
+            // cityListEl.forEach(element => {
+            //     cityEl.classList = "list-group-item";
+            // });
+
+            console.log(event.currentTarget.id);
+            cityEl.classList = "active list-group-item";
+        });
+    });
 }
 
 /**
@@ -149,10 +164,10 @@ function saveCity(cityCoordinates) {
  */
 function init() {
     // Load cities from local storage
-    //loadStoredCities();
+    loadStoredCities();
 
     // TODO - move this function out of init
-    getCityCoordinates("Paris");
+    //getCityCoordinates("New York City");
 }
 
 init();
