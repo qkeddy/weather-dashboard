@@ -167,7 +167,7 @@ function init() {
     loadStoredCities();
 
     // TODO - move this function out of init
-    //getCityCoordinates("New York City");
+    getCityCoordinates("Atlanta");
 }
 
 init();
