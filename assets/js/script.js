@@ -10,8 +10,8 @@ searchCityButtonEl = document.querySelector("button");
  */
 function loadStoredCities() {
     // Get list of cities from local storage
-    var cities = JSON.parse(localStorage.getItem("citiexs"));
-    console.log("Cities", cities);
+    cityList = JSON.parse(localStorage.getItem("cityList"));
+    console.log("Cities", cityList);
 
     // Loop over each city and add to city list and get the latest weather
     // cities.forEach((element) => {
@@ -119,8 +119,19 @@ function saveCity(cityCoordinates) {
         cityList = [];
     }
 
-    // Add city to array
-    cityList.push(cityCoordinates);
+    // Check to see if the city is already stored. If not, add the city to the list.
+    cityExists = false;
+    cityList.forEach((element) => {
+        if (element.name === cityCoordinates.name) {
+            // City exists in local storage
+            cityExists = true;
+        }
+    });
+
+    // If the city does not exist then push on to the array
+    if (!cityExists) {
+        cityList.push(cityCoordinates);
+    }
 
     // Stringify and write data to local storage
     localStorage.setItem("cityList", JSON.stringify(cityList));
@@ -141,7 +152,7 @@ function init() {
     //loadStoredCities();
 
     // TODO - move this function out of init
-    getCityCoordinates("New York City");
+    getCityCoordinates("Paris");
 }
 
 init();
