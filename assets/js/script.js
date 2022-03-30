@@ -10,33 +10,27 @@ searchCityButtonEl = document.querySelector("button");
  */
 function loadStoredCities() {
     // Get list of cities from local storage
-    cities = JSON.parse(localStorage.getItem("cities"));
+    var cities = JSON.parse(localStorage.getItem("citiexs"));
+    console.log("Cities", cities);
 
     // Loop over each city and add to city list and get the latest weather
-    cities.forEach((element) => {
-        // Create a new list item
-        const cityEl = document.createElement("li");
-        cityEl.textContent = element;
-        cityListEl.appendChild(cityEl);
+    // cities.forEach((element) => {
+    //     // Create a new list item
+    //     const cityEl = document.createElement("li");
+    //     cityEl.textContent = element;
+    //     cityListEl.appendChild(cityEl);
 
-        // Make each element clickable
-        cityEl.addEventListener("click", function () {
+    //     // Make each element clickable
+    //     cityEl.addEventListener("click", function () {
 
-        })
-    });
+    //     })
+    // });
 }
-
 
 /**
  * !Function to get weather data for an individual city
  */
 function getCityCoordinates(city) {
-    // Initialize and object to hold the city coordinates
-    let cityCoordinates = {
-        longitude: 0,
-        latitude: 0,
-    };
-
     // Generate URL to get city coordinates
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
 
@@ -44,12 +38,18 @@ function getCityCoordinates(city) {
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                cityCoordinates.latitude = data.coord.lat;
-                cityCoordinates.longitude = data.coord.lon;
+                let cityCoordinates = {
+                    name: city,
+                    longitude: data.coord.lat,
+                    latitude: data.coord.lon,
+                };
                 console.log(`Latitude and longitude for ${city} retrieved`);
 
                 // Fetch weather forecast
-                getCityWeather(cityCoordinates);
+                //getCityWeather(cityCoordinates);
+
+                // Save city to local storage
+                saveCity(cityCoordinates);
             });
         } else {
             console.log(`${city} is not a valid city name`);
@@ -75,12 +75,10 @@ function getCityWeather(cityCoordinates) {
     // Generate URL to get city weather by the coordinates
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityCoordinates.latitude}&lon=${cityCoordinates.longitude}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
 
-
     // Fetch data city coordinates
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-
                 // Set the current conditions
                 cityWeather.currTemp = data.current.temp;
                 cityWeather.currWind = data.current.wind_speed;
@@ -88,13 +86,15 @@ function getCityWeather(cityCoordinates) {
                 cityWeather.currUvi = data.current.uvi;
 
                 // Set the forecast
-                data.daily.forEach(element => {
+                data.daily.forEach((element) => {
                     cityWeather.temperature.push(element.temp.day);
                     cityWeather.windSpeed.push(element.wind_speed);
                     cityWeather.humidity.push(element.humidity);
                 });
 
-                console.log("Current and forecast conditions successfully retrieved");
+                console.log(
+                    "Current and forecast conditions successfully retrieved"
+                );
             });
         } else {
             console.log(`Weather is not currently`);
@@ -110,7 +110,21 @@ function refreshWeatherDisplayElements() {}
 /**
  * !Save selected city to local storage
  */
-function saveAsSelected() {}
+function saveCity(cityCoordinates) {
+    // Fetch existing cities and store in a local object
+    cityList = JSON.parse(localStorage.getItem("cityList"));
+
+    // If cityList is empty then initialize
+    if (!cityList) {
+        cityList = [];
+    }
+
+    // Add city to array
+    cityList.push(cityCoordinates);
+
+    // Stringify and write data to local storage
+    localStorage.setItem("cityList", JSON.stringify(cityList));
+}
 
 /**
  * !Input event to search for a city
@@ -123,11 +137,11 @@ function saveAsSelected() {}
  * !Init function
  */
 function init() {
+    // Load cities from local storage
+    //loadStoredCities();
 
     // TODO - move this function out of init
     getCityCoordinates("New York City");
-
-
 }
 
 init();
