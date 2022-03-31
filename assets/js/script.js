@@ -10,34 +10,35 @@ searchCityButtonEl = document.querySelector("button");
  */
 function loadStoredCities() {
     // Get list of cities from local storage
+    // ???? Why don't we need to use a let or var?
     cityList = JSON.parse(localStorage.getItem("cityList"));
     if (!cityList) {
         console.log("No cities are stored in local storage");
     }
-    //console.log(cityList);
 
     // Loop over each city and add to city list and get the latest weather
     cityList.forEach((element) => {
         // Create a new list item
         const cityEl = document.createElement("li");
         cityEl.textContent = element.name;
-        cityEl.classList = "list-group-item";
+        cityEl.classList = "list-group-item city-list";
         cityEl.id = element.name;
         cityEl.attributes = "city";
         cityListEl.appendChild(cityEl);
 
         // Make each element clickable
         cityEl.addEventListener("click", function (event) {
-            console.log(cityListEl);
+            console.log(event);
 
+            // Isolate the button that is active and toggle off the property
+            const activeEl = document.querySelector(".active");
+            if (activeEl) {
+                const classes = activeEl.classList;
+                classes.remove("active");
+            }
 
-            // ?? How do I deselect the cities
-            // cityListEl.forEach(element => {
-            //     cityEl.classList = "list-group-item";
-            // });
-
-            console.log(event.currentTarget.id);
-            cityEl.classList = "active list-group-item";
+            // Then toggle on the button that was just clicked
+            cityEl.classList = "list-group-item city-list active";
         });
     });
 }
@@ -167,7 +168,7 @@ function init() {
     loadStoredCities();
 
     // TODO - move this function out of init
-    getCityCoordinates("Atlanta");
+    getCityCoordinates("New York");
 }
 
 init();
