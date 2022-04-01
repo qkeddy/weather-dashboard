@@ -13,9 +13,6 @@ day3DateEl = document.querySelector("#day3");
 day4DateEl = document.querySelector("#day4");
 day5DateEl = document.querySelector("#day5");
 
-//currentTempEl = document.querySelector("#current-temp");
-//currentWindEl = document.querySelector("#current-wind");
-//currentHumidityEl = document.querySelector("#current-humidity");
 currentConditionsEl = document.querySelector("#current-conditions");
 
 /**
@@ -129,23 +126,40 @@ function getCityWeather(cityCoordinates) {
         if (response.ok) {
             response.json().then(function (data) {
                 // Set the current conditions
-                currDate = new Date(data.current.dt * 1000).toLocaleDateString(
-                    "en-US"
-                );
+                let currDate = new Date(
+                    data.current.dt * 1000
+                ).toLocaleDateString("en-US");
                 currentConditionsEl.children[0].children[0].textContent = `${cityCoordinates.name} (${currDate})`;
                 currentConditionsEl.children[0].children[1].setAttribute(
                     "src",
                     `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
                 );
+                currentConditionsEl.children[0].children[1].setAttribute(
+                    "alt",
+                    `Icon of ${data.current.weather[0].description}`
+                );
+                currentConditionsEl.children[0].children[2].textContent = `${data.current.weather[0].description}`;
                 currentConditionsEl.children[1].children[0].textContent = `Temperature: ${data.current.temp} F`;
                 currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${data.current.wind_speed} mph`;
                 currentConditionsEl.children[1].children[2].textContent = `Humidity: ${data.current.humidity}%`;
                 currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
 
-                console.log(currentConditionsEl.children[0].children[1]);
-                console.log(data.current.weather[0].icon);
+                // Color code the UV Index
+                let uvIndexStyle = "uv-clear";
+                if (0 < data.current.uvi && data.current.uvi < 3) {
+                    uvIndexStyle = "uv-green";
+                } else if (3 <= data.current.uvi && data.current.uvi < 6) {
+                    uvIndexStyle = "uv-yellow";
+                } else if (6 <= data.current.uvi && data.current.uvi < 8) {
+                    uvIndexStyle = "uv-orange";
+                } else if (8 <= data.current.uvi && data.current.uvi < 11) {
+                    uvIndexStyle = "uv-red";
+                } else if (11 <= data.current.uvi) {
+                    uvIndexStyle = "uv-purple";
+                }
+                currentConditionsEl.children[1].children[3].classList = `list-group-item ${uvIndexStyle}`;
 
-                // Set the forecast
+                // Set the daily forecast
                 // data.daily.forEach((element) => {
                 //     cityWeather.temperature.push(element.temp.day);
                 //     cityWeather.windSpeed.push(element.wind_speed);
@@ -156,8 +170,6 @@ function getCityWeather(cityCoordinates) {
                     "Current and forecast conditions successfully retrieved"
                 );
 
-                // Set date elements
-                setDateElements();
             });
         } else {
             console.log("Weather is not currently available");
