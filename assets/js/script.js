@@ -13,6 +13,10 @@ day3DateEl = document.querySelector("#day3");
 day4DateEl = document.querySelector("#day4");
 day5DateEl = document.querySelector("#day5");
 
+currentTempEl = document.querySelector("#current-temp");
+currentWindEl = document.querySelector("#current-wind");
+currentHumidityEl = document.querySelector("#current-humidity");
+
 /**
  * !Function to update city selection from local storage
  */
@@ -74,10 +78,11 @@ function loadStoredCities(singleCity) {
             });
 
             // Get the weather for the selected city
-            let cityWeather = getCityWeather(cityCoordinates);
+            //let cityWeather = getCityWeather(cityCoordinates);
+            getCityWeather(cityCoordinates);
 
             // Refresh page elements
-            refreshWeatherDisplayElements(cityWeather);
+            //refreshWeatherDisplayElements(cityWeather);  // need to push this into the getCityWeather
         });
     });
 }
@@ -148,35 +153,30 @@ function getCityWeather(cityCoordinates) {
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
+                // Update elements on page
+                cityFocusEl.textContent = cityWeather.city;
+                currentTempEl.textContent = `Temp: ${cityWeather.currTemp}`;
+                currentWindEl.textContent = `Wind: ${cityWeather.currWind}`;
+                currentHumidityEl.textContent = `Humidity: ${cityWeather.currHumidity}`;
+
+                // Set date elements
+                setDateElements();
             });
         } else {
             console.log("Weather is not currently available");
+            // Update elements on page
+            cityFocusEl.textContent = `${cityWeather.city}'s weather is not available`;
         }
     });
-
-    
-
-    return cityWeather;
-}
-
-/**
- * !Refresh weather display elements with weather data for a selected city
- */
-function refreshWeatherDisplayElements(cityWeather) {
-    console.log(cityWeather);
-    console.log(cityWeather.currTemp);
-    cityFocusEl.textContent = cityWeather.city;
-
-    // Set date elements
-    setDateElements();
 }
 
 
 /**
- * Function to update the date elements
+ * ! Function to update the date elements
  */
 function setDateElements() {
     // Set date elements
+    // TODO is this displaying the correct timezone?
     day1DateEl.textContent = moment().format("M/D");
     day2DateEl.textContent = moment().add(1, "d").format("M/D");
     day3DateEl.textContent = moment().add(2, "d").format("M/D");
