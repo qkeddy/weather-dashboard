@@ -101,8 +101,8 @@ function getCityCoordinates(city) {
             response.json().then(function (data) {
                 let cityCoordinates = {
                     name: city,
-                    longitude: data.coord.lat,
-                    latitude: data.coord.lon,
+                    longitude: data.coord.lon,
+                    latitude: data.coord.lat,
                 };
                 console.log(`Latitude and longitude for ${city} retrieved`);
 
@@ -122,26 +122,28 @@ function getCityWeather(cityCoordinates) {
     // Generate URL to get city weather by the coordinates
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityCoordinates.latitude}&lon=${cityCoordinates.longitude}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
 
+    console.log(apiUrl);
+
     // Fetch data city coordinates
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
                 // Set the current conditions
-                currDate = new Date(data.current.dt * 1000).toLocaleDateString("en-US");
+                currDate = new Date(data.current.dt * 1000).toLocaleDateString(
+                    "en-US"
+                );
                 currentConditionsEl.children[0].children[0].textContent = `${cityCoordinates.name} (${currDate})`;
+                currentConditionsEl.children[0].children[1].setAttribute(
+                    "src",
+                    `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
+                );
                 currentConditionsEl.children[1].children[0].textContent = `Temperature: ${data.current.temp} F`;
                 currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${data.current.wind_speed} mph`;
                 currentConditionsEl.children[1].children[2].textContent = `Humidity: ${data.current.humidity}%`;
                 currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
 
-                console.log(currentConditionsEl);
-
-                //currentConditionsEl.textContent.chi = `Temp: ${cityWeather.currTemp}`;
-
-                //  = data.current.temp;
-                //  = data.current.wind_speed;
-                //  = data.current.humidity;
-                // = data.current.uvi;
+                console.log(currentConditionsEl.children[0].children[1]);
+                console.log(data.current.weather[0].icon);
 
                 // Set the forecast
                 // data.daily.forEach((element) => {
@@ -153,12 +155,6 @@ function getCityWeather(cityCoordinates) {
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
-                // Update elements on page
-
-                //cityFocusEl.textContent = `${cityWeather.city} ()`;
-                //currentTempEl.textContent = `Temp: ${cityWeather.currTemp}`;
-                //currentWindEl.textContent = `Wind: ${cityWeather.currWind}`;
-                //currentHumidityEl.textContent = `Humidity: ${cityWeather.currHumidity}`;
 
                 // Set date elements
                 setDateElements();
