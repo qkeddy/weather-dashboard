@@ -2,20 +2,29 @@
 apiKey = "64af714a02193243ce10430d0259b40a";
 
 // Declare page elements
+cityInputEl = document.querySelector("#city-input");
 cityListEl = document.querySelector("#cities");
-searchCityButtonEl = document.querySelector("button");
+searchCityButtonEl = document.querySelector(".btn-primary");
 
 /**
  * !Function to update city selection from local storage
  */
-function loadStoredCities() {
-    // Get list of cities from local storage
-    // ???? Why don't we need to use a let or var?
-    cityList = JSON.parse(localStorage.getItem("cityList"));
-    if (!cityList) {
-        console.log("No cities are stored in local storage");
-    }
+function loadStoredCities(singleCity) {
 
+    // Add an incremental city or load the entire list from local storage
+    let cityList = [];
+    if (singleCity) {
+        cityList = [{ name: singleCity }];
+        console.log(cityList);
+    } else {
+        // Get list of cities from local storage
+        cityList = JSON.parse(localStorage.getItem("cityList"));
+        console.log(cityList);
+        if (!cityList) {
+            console.log("No cities are stored in local storage");
+        }
+    }
+    
     // Loop over each city and add to city list and get the latest weather
     cityList.forEach((element) => {
         // Create a new list item
@@ -160,6 +169,20 @@ function saveCity(cityCoordinates) {
 //     event.preventDefault();
 // })
 
+var cityInputHandler = function (event) {
+    
+    var city = cityInputEl.value.trim();
+
+    console.log(city);
+
+    // TODO - If city is not valid, then surface that to the user
+    if (city) {
+        getCityCoordinates(city)
+        loadStoredCities(city);
+        cityInputEl.value = "";
+    }
+};
+
 /**
  * !Init function
  */
@@ -167,8 +190,13 @@ function init() {
     // Load cities from local storage
     loadStoredCities();
 
-    // TODO - move this function out of init
-    getCityCoordinates("New York");
 }
 
 init();
+
+
+searchCityButtonEl.addEventListener("click", function (event) {
+    // Override default HTML form behavior
+    event.preventDefault();
+    cityInputHandler();
+});
