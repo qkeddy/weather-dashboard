@@ -10,21 +10,21 @@ searchCityButtonEl = document.querySelector(".btn-primary");
  * !Function to update city selection from local storage
  */
 function loadStoredCities(singleCity) {
+    // Initialize cityList
+    let cityList = [];
 
     // Add an incremental city or load the entire list from local storage
-    let cityList = [];
     if (singleCity) {
         cityList = [{ name: singleCity }];
-        console.log(cityList);
     } else {
         // Get list of cities from local storage
         cityList = JSON.parse(localStorage.getItem("cityList"));
-        console.log(cityList);
         if (!cityList) {
             console.log("No cities are stored in local storage");
+            cityList = [];
         }
     }
-    
+
     // Loop over each city and add to city list and get the latest weather
     cityList.forEach((element) => {
         // Create a new list item
@@ -37,8 +37,6 @@ function loadStoredCities(singleCity) {
 
         // Make each element clickable
         cityEl.addEventListener("click", function (event) {
-            console.log(event);
-
             // Isolate the button that is active and toggle off the property
             const activeEl = document.querySelector(".active");
             if (activeEl) {
@@ -48,6 +46,29 @@ function loadStoredCities(singleCity) {
 
             // Then toggle on the button that was just clicked
             cityEl.classList = "list-group-item city-list active";
+
+            // Fetch weather forecast
+            // Reach into localstorage and populate cityCoordinates
+            cityList = JSON.parse(localStorage.getItem("cityList"));
+
+            let cityCoordinates = {
+                name: "",
+                longitude: "",
+                latitude: "",
+            };
+            cityList.forEach((element) => {
+                if (element.name === cityEl.id) {
+                    cityCoordinates = {
+                        name: element.name,
+                        longitude: element.longitude,
+                        latitude: element.latitude,
+                    };
+                }
+            });
+
+            // Get the weather for the selected city
+            let x = getCityWeather(cityCoordinates);
+            console.log(x);
         });
     });
 }
@@ -69,9 +90,6 @@ function getCityCoordinates(city) {
                     latitude: data.coord.lon,
                 };
                 console.log(`Latitude and longitude for ${city} retrieved`);
-
-                // Fetch weather forecast
-                //getCityWeather(cityCoordinates);
 
                 // Save city to local storage
                 saveCity(cityCoordinates);
@@ -120,9 +138,10 @@ function getCityWeather(cityCoordinates) {
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
+                console.log(cityWeather);
             });
         } else {
-            console.log(`Weather is not currently`);
+            console.log("Weather is not currently available");
         }
     });
 }
@@ -163,40 +182,37 @@ function saveCity(cityCoordinates) {
 }
 
 /**
- * !Input event to search for a city
+ * ! Search for a city
  */
-// searchCityButtonEl.on("click", function (event) {
-//     event.preventDefault();
-// })
-
-var cityInputHandler = function (event) {
-    
+var cityInputHandler = function () {
     var city = cityInputEl.value.trim();
-
-    console.log(city);
 
     // TODO - If city is not valid, then surface that to the user
     if (city) {
-        getCityCoordinates(city)
+        getCityCoordinates(city);
         loadStoredCities(city);
         cityInputEl.value = "";
     }
 };
 
 /**
- * !Init function
+ * ! Init function
  */
 function init() {
     // Load cities from local storage
     loadStoredCities();
-
 }
 
 init();
 
+/**
+ * ! Event listener to search for new cities that are input
+ * TODO - enable the search to respond to an enter key
+ */
+// searchCityButtonEl.addEventListener("click", function () {
+//     // Override default HTML form behavior
+//     //event.preventDefault();
+//     cityInputHandler();
+// });
 
-searchCityButtonEl.addEventListener("click", function (event) {
-    // Override default HTML form behavior
-    event.preventDefault();
-    cityInputHandler();
-});
+searchCityButtonEl.addEventListener("click", cityInputHandler);
