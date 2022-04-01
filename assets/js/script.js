@@ -2,18 +2,12 @@
 apiKey = "64af714a02193243ce10430d0259b40a";
 
 // Declare page elements
-cityInputEl = document.querySelector("#city-input");
-cityListEl = document.querySelector("#cities");
-searchCityButtonEl = document.querySelector(".btn-primary");
-cityFocusEl = document.querySelector("#focus-city");
+let cityInputEl = document.querySelector("#city-input");
+let cityListEl = document.querySelector("#cities");
+let searchCityButtonEl = document.querySelector(".btn-primary");
+let cityFocusEl = document.querySelector("#focus-city");
 
-day1DateEl = document.querySelector("#day1");
-day2DateEl = document.querySelector("#day2");
-day3DateEl = document.querySelector("#day3");
-day4DateEl = document.querySelector("#day4");
-day5DateEl = document.querySelector("#day5");
-
-currentConditionsEl = document.querySelector("#current-conditions");
+let currentConditionsEl = document.querySelector("#current-conditions");
 
 /**
  * !Function to update city selection from local storage
@@ -160,16 +154,22 @@ function getCityWeather(cityCoordinates) {
                 currentConditionsEl.children[1].children[3].classList = `list-group-item ${uvIndexStyle}`;
 
                 // Set the daily forecast
-                // data.daily.forEach((element) => {
-                //     cityWeather.temperature.push(element.temp.day);
-                //     cityWeather.windSpeed.push(element.wind_speed);
-                //     cityWeather.humidity.push(element.humidity);
-                // });
+                data.daily.forEach((element, i) => {
+                    let forecastEl = document.querySelector(`#day${i}`);
+                    //console.log(forecastEl.children[1]);
+                    //console.log(document.querySelector(`#day${i}`).children[0]);
+
+
+                    // forecastEl.children[0].children[0].textContent = element.dt;
+
+                    // cityWeather.temperature.push(element.temp.day);
+                    // cityWeather.windSpeed.push(element.wind_speed);
+                    // cityWeather.humidity.push(element.humidity);
+                });
 
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
-
             });
         } else {
             console.log("Weather is not currently available");
@@ -177,20 +177,6 @@ function getCityWeather(cityCoordinates) {
             cityFocusEl.textContent = `${cityWeather.city}'s weather is not available`;
         }
     });
-}
-
-/**
- * ! Function to update the date elements
- */
-function setDateElements() {
-    // Set date elements
-    // TODO is this displaying the correct timezone?
-    day1DateEl.textContent = moment().format("M/D");
-    day2DateEl.textContent = moment().add(1, "d").format("M/D");
-    day3DateEl.textContent = moment().add(2, "d").format("M/D");
-    day4DateEl.textContent = moment().add(3, "d").format("M/D");
-    day5DateEl.textContent = moment().add(4, "d").format("M/D");
-    // console.log(new Date(1648900800 * 1000).toLocaleDateString("en-US").slice(0,-5));
 }
 
 /**
@@ -243,7 +229,6 @@ var cityInputHandler = function () {
 function init() {
     // Load cities from local storage
     loadStoredCities();
-    setDateElements();
 }
 
 init();
