@@ -13,9 +13,10 @@ day3DateEl = document.querySelector("#day3");
 day4DateEl = document.querySelector("#day4");
 day5DateEl = document.querySelector("#day5");
 
-currentTempEl = document.querySelector("#current-temp");
-currentWindEl = document.querySelector("#current-wind");
-currentHumidityEl = document.querySelector("#current-humidity");
+//currentTempEl = document.querySelector("#current-temp");
+//currentWindEl = document.querySelector("#current-wind");
+//currentHumidityEl = document.querySelector("#current-humidity");
+currentConditionsEl = document.querySelector("#current-conditions");
 
 /**
  * !Function to update city selection from local storage
@@ -118,18 +119,6 @@ function getCityCoordinates(city) {
  * !Function to get current and forecast weather conditions based upon longitude and latitude
  */
 function getCityWeather(cityCoordinates) {
-    // Initialize and object to hold the city data
-    let cityWeather = {
-        city: cityCoordinates.name,
-        currTemp: 0,
-        currWind: 0,
-        currHumidity: 0,
-        currUvi: 0,
-        temperature: [],
-        windSpeed: [],
-        humidity: [],
-    };
-
     // Generate URL to get city weather by the coordinates
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityCoordinates.latitude}&lon=${cityCoordinates.longitude}&units=imperial&exclude=minutely,hourly,alerts&appid=${apiKey}`;
 
@@ -138,26 +127,38 @@ function getCityWeather(cityCoordinates) {
         if (response.ok) {
             response.json().then(function (data) {
                 // Set the current conditions
-                cityWeather.currTemp = data.current.temp;
-                cityWeather.currWind = data.current.wind_speed;
-                cityWeather.currHumidity = data.current.humidity;
-                cityWeather.currUvi = data.current.uvi;
+                currDate = new Date(data.current.dt * 1000).toLocaleDateString("en-US");
+                currentConditionsEl.children[0].children[0].textContent = `${cityCoordinates.name} (${currDate})`;
+                currentConditionsEl.children[1].children[0].textContent = `Temperature: ${data.current.temp} F`;
+                currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${data.current.wind_speed} mph`;
+                currentConditionsEl.children[1].children[2].textContent = `Humidity: ${data.current.humidity}%`;
+                currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
+
+                console.log(currentConditionsEl);
+
+                //currentConditionsEl.textContent.chi = `Temp: ${cityWeather.currTemp}`;
+
+                //  = data.current.temp;
+                //  = data.current.wind_speed;
+                //  = data.current.humidity;
+                // = data.current.uvi;
 
                 // Set the forecast
-                data.daily.forEach((element) => {
-                    cityWeather.temperature.push(element.temp.day);
-                    cityWeather.windSpeed.push(element.wind_speed);
-                    cityWeather.humidity.push(element.humidity);
-                });
+                // data.daily.forEach((element) => {
+                //     cityWeather.temperature.push(element.temp.day);
+                //     cityWeather.windSpeed.push(element.wind_speed);
+                //     cityWeather.humidity.push(element.humidity);
+                // });
 
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
                 // Update elements on page
-                cityFocusEl.textContent = cityWeather.city;
-                currentTempEl.textContent = `Temp: ${cityWeather.currTemp}`;
-                currentWindEl.textContent = `Wind: ${cityWeather.currWind}`;
-                currentHumidityEl.textContent = `Humidity: ${cityWeather.currHumidity}`;
+
+                //cityFocusEl.textContent = `${cityWeather.city} ()`;
+                //currentTempEl.textContent = `Temp: ${cityWeather.currTemp}`;
+                //currentWindEl.textContent = `Wind: ${cityWeather.currWind}`;
+                //currentHumidityEl.textContent = `Humidity: ${cityWeather.currHumidity}`;
 
                 // Set date elements
                 setDateElements();
@@ -170,7 +171,6 @@ function getCityWeather(cityCoordinates) {
     });
 }
 
-
 /**
  * ! Function to update the date elements
  */
@@ -182,6 +182,7 @@ function setDateElements() {
     day3DateEl.textContent = moment().add(2, "d").format("M/D");
     day4DateEl.textContent = moment().add(3, "d").format("M/D");
     day5DateEl.textContent = moment().add(4, "d").format("M/D");
+    // console.log(new Date(1648900800 * 1000).toLocaleDateString("en-US").slice(0,-5));
 }
 
 /**
