@@ -5,6 +5,13 @@ apiKey = "64af714a02193243ce10430d0259b40a";
 cityInputEl = document.querySelector("#city-input");
 cityListEl = document.querySelector("#cities");
 searchCityButtonEl = document.querySelector(".btn-primary");
+cityFocusEl = document.querySelector("#focus-city");
+
+day1DateEl = document.querySelector("#day1");
+day2DateEl = document.querySelector("#day2");
+day3DateEl = document.querySelector("#day3");
+day4DateEl = document.querySelector("#day4");
+day5DateEl = document.querySelector("#day5");
 
 /**
  * !Function to update city selection from local storage
@@ -67,8 +74,10 @@ function loadStoredCities(singleCity) {
             });
 
             // Get the weather for the selected city
-            let x = getCityWeather(cityCoordinates);
-            console.log(x);
+            let cityWeather = getCityWeather(cityCoordinates);
+
+            // Refresh page elements
+            refreshWeatherDisplayElements(cityWeather);
         });
     });
 }
@@ -106,6 +115,7 @@ function getCityCoordinates(city) {
 function getCityWeather(cityCoordinates) {
     // Initialize and object to hold the city data
     let cityWeather = {
+        city: cityCoordinates.name,
         currTemp: 0,
         currWind: 0,
         currHumidity: 0,
@@ -138,18 +148,41 @@ function getCityWeather(cityCoordinates) {
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
-                console.log(cityWeather);
             });
         } else {
             console.log("Weather is not currently available");
         }
     });
+
+    
+
+    return cityWeather;
 }
 
 /**
  * !Refresh weather display elements with weather data for a selected city
  */
-function refreshWeatherDisplayElements() {}
+function refreshWeatherDisplayElements(cityWeather) {
+    console.log(cityWeather);
+    console.log(cityWeather.currTemp);
+    cityFocusEl.textContent = cityWeather.city;
+
+    // Set date elements
+    setDateElements();
+}
+
+
+/**
+ * Function to update the date elements
+ */
+function setDateElements() {
+    // Set date elements
+    day1DateEl.textContent = moment().format("M/D");
+    day2DateEl.textContent = moment().add(1, "d").format("M/D");
+    day3DateEl.textContent = moment().add(2, "d").format("M/D");
+    day4DateEl.textContent = moment().add(3, "d").format("M/D");
+    day5DateEl.textContent = moment().add(4, "d").format("M/D");
+}
 
 /**
  * !Save selected city to local storage
@@ -201,6 +234,7 @@ var cityInputHandler = function () {
 function init() {
     // Load cities from local storage
     loadStoredCities();
+    setDateElements();
 }
 
 init();
