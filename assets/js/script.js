@@ -4,7 +4,7 @@ apiKey = "64af714a02193243ce10430d0259b40a";
 // Declare page elements
 let cityInputEl = document.querySelector("#city-input");
 let cityListEl = document.querySelector("#cities");
-let searchCityButtonEl = document.querySelector(".btn-primary");
+let searchCityFormEl = document.querySelector("form");
 let cityFocusEl = document.querySelector("#focus-city");
 
 let currentConditionsEl = document.querySelector("#current-conditions");
@@ -144,56 +144,9 @@ function getCityWeather(cityCoordinates) {
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                // Set the current conditions
-                let currDate = new Date(
-                    data.current.dt * 1000
-                ).toLocaleDateString("en-US");
-                currentConditionsEl.children[0].children[0].textContent = `${cityCoordinates.name} (${currDate})`;
-                currentConditionsEl.children[0].children[1].setAttribute(
-                    "src",
-                    `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
-                );
-                currentConditionsEl.children[0].children[1].setAttribute(
-                    "alt",
-                    `Icon of ${data.current.weather[0].description}`
-                );
-                currentConditionsEl.children[0].children[2].textContent = `${data.current.weather[0].description}`;
-                currentConditionsEl.children[1].children[0].textContent = `Temperature: ${data.current.temp} F`;
-                currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${data.current.wind_speed} mph`;
-                currentConditionsEl.children[1].children[2].textContent = `Humidity: ${data.current.humidity}%`;
-                currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
 
-                // Color code the UV Index
-                let uvIndexStyle = "uv-clear";
-                if (0 < data.current.uvi && data.current.uvi < 3) {
-                    uvIndexStyle = "uv-green";
-                } else if (3 <= data.current.uvi && data.current.uvi < 6) {
-                    uvIndexStyle = "uv-yellow";
-                } else if (6 <= data.current.uvi && data.current.uvi < 8) {
-                    uvIndexStyle = "uv-orange";
-                } else if (8 <= data.current.uvi && data.current.uvi < 11) {
-                    uvIndexStyle = "uv-red";
-                } else if (11 <= data.current.uvi) {
-                    uvIndexStyle = "uv-purple";
-                }
-                currentConditionsEl.children[1].children[3].classList = `list-group-item ${uvIndexStyle}`;
-
-                // Set the daily forecast
-                data.daily.forEach((element, i) => {
-                    let forecastEl = document.querySelector(`#day${i}`);
-                    //console.log(forecastEl.children[1]);
-                    // TODO - why does this not work?
-                    //console.log(document.querySelector(`#day${i}`).children[0]);
-
-                    // forecastEl.children[0].children[0].textContent = element.dt;
-                    // forecastEl.children[1].children[0].textContent =
-                    //     element.temp.day;
-                    // forecastEl.children[1].children[1].textContent =
-                    //     element.temp.wind_speed;
-                    // forecastEl.children[1].children[2].textContent =
-                    //     element.temp.humidity;
-                });
-
+                updatePage(data, cityCoordinates);
+  
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
@@ -212,7 +165,7 @@ function getCityWeather(cityCoordinates) {
 var cityInputHandler = function () {
     var city = cityInputEl.value.trim();
 
-    // TODO - If city is not valid, then surface that to the user
+    // TODO - If city is not valid or is a duplicate, then surface that to the user
     if (city) {
         // Get the city coordinates and check to see if the city is valid
         if (getCityCoordinates(city)) {
@@ -223,6 +176,62 @@ var cityInputHandler = function () {
 };
 
 /**
+ * Refresh the page with the weather data for the selected city
+ * @param {*} data 
+ * @param {*} cityCoordinates 
+ */
+function updatePage(data, cityCoordinates) {
+    // Set the current conditions
+    let currDate = new Date(data.current.dt * 1000).toLocaleDateString("en-US");
+    currentConditionsEl.children[0].children[0].textContent = `${cityCoordinates.name} (${currDate})`;
+    currentConditionsEl.children[0].children[1].setAttribute(
+        "src",
+        `http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png`
+    );
+    currentConditionsEl.children[0].children[1].setAttribute(
+        "alt",
+        `Icon of ${data.current.weather[0].description}`
+    );
+    currentConditionsEl.children[0].children[2].textContent = `${data.current.weather[0].description}`;
+    currentConditionsEl.children[1].children[0].textContent = `Temperature: ${data.current.temp} F`;
+    currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${data.current.wind_speed} mph`;
+    currentConditionsEl.children[1].children[2].textContent = `Humidity: ${data.current.humidity}%`;
+    currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
+
+    // Color code the UV Index
+    let uvIndexStyle = "uv-clear";
+    if (0 < data.current.uvi && data.current.uvi < 3) {
+        uvIndexStyle = "uv-green";
+    } else if (3 <= data.current.uvi && data.current.uvi < 6) {
+        uvIndexStyle = "uv-yellow";
+    } else if (6 <= data.current.uvi && data.current.uvi < 8) {
+        uvIndexStyle = "uv-orange";
+    } else if (8 <= data.current.uvi && data.current.uvi < 11) {
+        uvIndexStyle = "uv-red";
+    } else if (11 <= data.current.uvi) {
+        uvIndexStyle = "uv-purple";
+    }
+    currentConditionsEl.children[1].children[3].classList = `list-group-item ${uvIndexStyle}`;
+
+    // Set the daily forecast
+    data.daily.forEach((element, i) => {
+        let forecastEl = document.querySelector(`#day${i + 1}`);
+        //console.log(forecastEl);
+        //console.log(forecastEl.children[0]);
+        // TODO - why does this not work?
+        //console.log(document.querySelector(`#day${i}`).children[0]);
+
+        // forecastEl.children[0].children[0].textContent = element.dt;
+        // forecastEl.children[1].children[0].textContent =
+        //     element.temp.day;
+        // forecastEl.children[1].children[1].textContent =
+        //     element.temp.wind_speed;
+        // forecastEl.children[1].children[2].textContent =
+        //     element.temp.humidity;
+    });
+}
+
+/**
  * ! Init function
  */
 function init() {
@@ -230,10 +239,16 @@ function init() {
     loadStoredCities();
 }
 
+
 init();
 
 /**
  * ! Event listener to search for new cities that are input
- * TODO - enable the search to respond to an enter key
  */
-searchCityButtonEl.addEventListener("click", cityInputHandler);
+//searchCityButtonEl.addEventListener("click", cityInputHandler);
+
+searchCityFormEl.addEventListener("submit", function (event) {
+    // Prevent default behavior
+    event.preventDefault();
+    cityInputHandler();
+});
