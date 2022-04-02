@@ -5,9 +5,10 @@ A weather dashboard that will run in the browser and display the current and fiv
 This application is design to provide current and forecast weather to any city in the world with an easy and intuitive interface. Using JavaScript, this app features dynamically updated HTML and CSS styles with sourced data from the OpenWeather service via the services REST API. The interface is designed to support both desktop and mobile environments. 
 
 
- The code highlights basic usage of the:
+ ### The code highlights basic usage of the:
 - JavaScript to dynamically update the side bar displaying saved cities and the weather for a selected city.
-- Timer and event function to display end-user notifications and respond to user input. 
+- Timer to refresh the weather every hour
+- Event function to respond to a user's selection of a city. 
 - Local storage is used to save selected cities. 
 - Interfaces with OpenWeather's REST API.
 

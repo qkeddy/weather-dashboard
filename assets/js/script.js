@@ -234,6 +234,38 @@ function updatePage(data, cityCoordinates) {
 function init() {
     // Load cities from local storage
     loadStoredCities();
+
+    //Automatically refresh weather every 60 minutes
+    setInterval(function () {
+        activeCityEl = document.querySelector(".active");
+        if (activeCityEl) {
+            // Get list of cities from local storage
+            cityList = JSON.parse(localStorage.getItem("cityList"));
+
+            // initialize cityCoordinate
+            let cityCoordinates = {
+                name: "",
+                longitude: "",
+                latitude: "",
+            };
+
+            // Isolate the selected city
+            cityList.forEach((element) => {
+                if (element.name === activeCityEl.id) {
+                    cityCoordinates = {
+                        name: element.name,
+                        longitude: element.longitude,
+                        latitude: element.latitude,
+                    };
+
+                    // Refresh the matching city
+                    getCityWeather(cityCoordinates);
+
+                    console.log(`${element.name}'s weather has been updated`);
+                }
+            });
+        }
+    }, 3600000);
 }
 
 init();
