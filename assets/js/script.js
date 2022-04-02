@@ -104,8 +104,9 @@ function getCityCoordinates(city) {
         fetch(apiUrl).then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    // Create new object in cities array
                     let cityCoordinates = {
-                        name: city,
+                        name: data.name,
                         longitude: data.coord.lon,
                         latitude: data.coord.lat,
                     };
@@ -117,7 +118,7 @@ function getCityCoordinates(city) {
                     localStorage.setItem("cityList", JSON.stringify(cityList));
 
                     // Add city to side bar
-                    loadStoredCities(city);
+                    loadStoredCities(cityCoordinates.name);
 
                     // Set newly added city to focus
                     getCityWeather(cityCoordinates);

@@ -21,7 +21,7 @@
                     <!-- TODO Question - is it an acceptable approach to use inline styling to override bootstrap's styling? -->
                     <img
                         src="./assets/images/cycle.svg"
-                        alt=""
+                        alt="Icon of a gear with three concentric arrows"
                         width="50"
                         height="48"
                         class="d-inline-block align-text-top"
@@ -35,15 +35,20 @@
 
         <div class="px-3">
             <div class="row">
-                <!-- TODO Add some margin to these two widgets -->
                 <section
                     class="col-12 col-md-4 col-lg-3"
                     style="margin-top: 10px"
                 >
                     <form class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1"
-                            >🏙</span
-                        >
+                        <img
+                            src="./assets/images/blue-city-icon.svg"
+                            alt="Icon of a city scape"
+                            width="40"
+                            height="40"
+                            class="d-inline-block"
+                            style="padding: 4px;"
+                        />
+
                         <input
                             id="city-input"
                             type="text"
@@ -58,8 +63,7 @@
                             value="Search"
                         />
                     </form>
-                    <!-- TODO find a widget that is selectable -->
-                    <!-- TODO Store the selected city and the city list in local storage -->
+
                     <ul class="list-group" id="cities"></ul>
                 </section>
 
@@ -73,9 +77,12 @@
                             id="current-conditions"
                             style="margin-right: 30px; width: 90%"
                         >
-                            <div class="card-body">
+                            <div
+                                class="card-body"
+                                style="background-color: #0d6efd; color: white"
+                            >
                                 <h3 class="card-title">No City Selected</h3>
-                                <img>
+                                <img />
                                 <h2></h2>
                             </div>
                             <ul class="list-group list-group-flush">
@@ -91,12 +98,12 @@
                     </div>
 
                     <!-- d-flex is indicating "display flex & flex-row -- means use row" -->
-                    <div class="d-flex flex-row" >
+                    <div class="d-flex flex-row">
                         <!-- Day #1 -->
                         <div class="card" id="day1" style="width: 18%">
                             <div class="card-body">
-                                <h5 class="card-title" >-</h5>
-                                <img>
+                                <h5 class="card-title">-</h5>
+                                <img />
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Temp</li>
@@ -108,7 +115,7 @@
                         <div class="card" id="day2" style="width: 18%">
                             <div class="card-body">
                                 <h5 class="card-title">-</h5>
-                                <img>
+                                <img />
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Temp</li>
@@ -120,7 +127,7 @@
                         <div class="card" id="day3" style="width: 18%">
                             <div class="card-body">
                                 <h5 class="card-title">-</h5>
-                                <img>
+                                <img />
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Temp</li>
@@ -132,7 +139,7 @@
                         <div class="card" id="day4" style="width: 18%">
                             <div class="card-body">
                                 <h5 class="card-title">-</h5>
-                                <img>
+                                <img />
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Temp</li>
@@ -144,7 +151,7 @@
                         <div class="card" id="day5" style="width: 18%">
                             <div class="card-body">
                                 <h5 class="card-title">-</h5>
-                                <img>
+                                <img />
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Temp</li>

@@ -25,7 +25,8 @@
 
 .city-list:hover {
     /* box-shadow: 10px 1px teal; */
-    background-color:#8db4ee;
+    background-color:#0d6efd;
+    color: white;
 }
 
 
