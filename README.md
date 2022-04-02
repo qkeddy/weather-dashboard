@@ -17,7 +17,7 @@ This application can be found that the following [link](https://qkeddy.github.io
 
 ## Sample Usage
 
-The following image is a static image of the weather dashboard.
+The following GIF showcases the usage of the weather dashboard.
 
 ![alt text](./assets/images/weather-dashboard-demo.gif)
 
