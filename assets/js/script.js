@@ -179,9 +179,9 @@ function updatePage(data, cityCoordinates) {
         `Icon of ${data.current.weather[0].description}`
     );
     currentConditionsEl.children[0].children[2].textContent = `${data.current.weather[0].description}`;
-    currentConditionsEl.children[1].children[0].textContent = `Temperature: ${data.current.temp} F`;
-    currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${data.current.wind_speed} mph`;
-    currentConditionsEl.children[1].children[2].textContent = `Humidity: ${data.current.humidity}%`;
+    currentConditionsEl.children[1].children[0].textContent = `Temperature: ${parseInt(data.current.temp)} F`;
+    currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${parseInt(data.current.wind_speed)} mph`;
+    currentConditionsEl.children[1].children[2].textContent = `Humidity: ${parseInt(data.current.humidity)}%`;
     currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
 
     // Color code the UV Index
@@ -201,19 +201,21 @@ function updatePage(data, cityCoordinates) {
 
     // Set the daily forecast
     data.daily.forEach((element, i) => {
+        // initialize a page element with an incremented counter to account for the ID names
         let forecastEl = document.querySelector(`#day${i + 1}`);
-        //console.log(forecastEl);
-        //console.log(forecastEl.children[0]);
-        // TODO - why does this not work?
-        //console.log(document.querySelector(`#day${i}`).children[0]);
 
-        // forecastEl.children[0].children[0].textContent = element.dt;
-        // forecastEl.children[1].children[0].textContent =
-        //     element.temp.day;
-        // forecastEl.children[1].children[1].textContent =
-        //     element.temp.wind_speed;
-        // forecastEl.children[1].children[2].textContent =
-        //     element.temp.humidity;
+        //console.log(forecastEl.children[0]);
+        let forecastDate = new Date(element.dt * 1000)
+            .toLocaleDateString("en-US")
+            .slice(0, -5);
+        forecastEl.children[0].children[0].textContent = forecastDate;
+        forecastEl.children[0].children[1].setAttribute(
+        "src",
+        `http://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`
+    );
+        forecastEl.children[1].children[0].textContent = `Temp: ${parseInt(element.temp.day)} F`;
+        forecastEl.children[1].children[1].textContent = `Wind: ${parseInt(element.wind_speed)} mph`;
+        forecastEl.children[1].children[2].textContent = `Hum: ${parseInt(element.humidity)}%`;
     });
 }
 
