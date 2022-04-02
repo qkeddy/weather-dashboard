@@ -70,11 +70,7 @@ function loadStoredCities(singleCity) {
             });
 
             // Get the weather for the selected city
-            //let cityWeather = getCityWeather(cityCoordinates);
             getCityWeather(cityCoordinates);
-
-            // Refresh page elements
-            //refreshWeatherDisplayElements(cityWeather);  // need to push this into the getCityWeather
         });
     });
 }
@@ -83,27 +79,56 @@ function loadStoredCities(singleCity) {
  * !Function to get weather data for an individual city
  */
 function getCityCoordinates(city) {
-    // Generate URL to get city coordinates
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+    // Fetch existing cities and store in a local object
+    cityList = JSON.parse(localStorage.getItem("cityList"));
 
-    // Fetch data city coordinates
-    fetch(apiUrl).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                let cityCoordinates = {
-                    name: city,
-                    longitude: data.coord.lon,
-                    latitude: data.coord.lat,
-                };
-                console.log(`Latitude and longitude for ${city} retrieved`);
+    // If cityList is empty then initialize
+    if (!cityList) {
+        cityList = [];
+    }
 
-                // Save city to local storage
-                saveCity(cityCoordinates);
-            });
-        } else {
-            console.log(`${city} is not a valid city name`);
+    // Check to see if the city is already stored. If not, add the city to the list.
+    cityExists = false;
+    cityList.forEach((element) => {
+        if (element.name.toUpperCase() === city.toUpperCase()) {
+            // City exists in local storage
+            cityExists = true;
         }
     });
+
+    // If city does not exist, then fetch city coordinates and add to local storage
+    if (!cityExists) {
+        // Generate URL to get city coordinates
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+
+        // Fetch data city coordinates
+        fetch(apiUrl).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    let cityCoordinates = {
+                        name: city,
+                        longitude: data.coord.lon,
+                        latitude: data.coord.lat,
+                    };
+
+                    // Add city to the cityList
+                    cityList.push(cityCoordinates);
+
+                    // Stringify and write data to local storage
+                    localStorage.setItem("cityList", JSON.stringify(cityList));
+
+                    console.log(`Latitude and longitude for ${city} retrieved`);
+
+                    return true;
+                });
+            } else {
+                console.log(`${city} is not a valid city name`);
+
+                // Not a valid city, so return false
+                return false;
+            }
+        });
+    }
 }
 
 /**
@@ -157,14 +182,16 @@ function getCityWeather(cityCoordinates) {
                 data.daily.forEach((element, i) => {
                     let forecastEl = document.querySelector(`#day${i}`);
                     //console.log(forecastEl.children[1]);
+                    // TODO - why does this not work?
                     //console.log(document.querySelector(`#day${i}`).children[0]);
 
-
                     // forecastEl.children[0].children[0].textContent = element.dt;
-
-                    // cityWeather.temperature.push(element.temp.day);
-                    // cityWeather.windSpeed.push(element.wind_speed);
-                    // cityWeather.humidity.push(element.humidity);
+                    // forecastEl.children[1].children[0].textContent =
+                    //     element.temp.day;
+                    // forecastEl.children[1].children[1].textContent =
+                    //     element.temp.wind_speed;
+                    // forecastEl.children[1].children[2].textContent =
+                    //     element.temp.humidity;
                 });
 
                 console.log(
@@ -180,36 +207,6 @@ function getCityWeather(cityCoordinates) {
 }
 
 /**
- * !Save selected city to local storage
- */
-function saveCity(cityCoordinates) {
-    // Fetch existing cities and store in a local object
-    cityList = JSON.parse(localStorage.getItem("cityList"));
-
-    // If cityList is empty then initialize
-    if (!cityList) {
-        cityList = [];
-    }
-
-    // Check to see if the city is already stored. If not, add the city to the list.
-    cityExists = false;
-    cityList.forEach((element) => {
-        if (element.name === cityCoordinates.name) {
-            // City exists in local storage
-            cityExists = true;
-        }
-    });
-
-    // If the city does not exist then push on to the array
-    if (!cityExists) {
-        cityList.push(cityCoordinates);
-    }
-
-    // Stringify and write data to local storage
-    localStorage.setItem("cityList", JSON.stringify(cityList));
-}
-
-/**
  * ! Search for a city
  */
 var cityInputHandler = function () {
@@ -217,8 +214,10 @@ var cityInputHandler = function () {
 
     // TODO - If city is not valid, then surface that to the user
     if (city) {
-        getCityCoordinates(city);
-        loadStoredCities(city);
+        // Get the city coordinates and check to see if the city is valid
+        if (getCityCoordinates(city)) {
+            loadStoredCities(city);
+        }
         cityInputEl.value = "";
     }
 };
@@ -237,10 +236,4 @@ init();
  * ! Event listener to search for new cities that are input
  * TODO - enable the search to respond to an enter key
  */
-// searchCityButtonEl.addEventListener("click", function () {
-//     // Override default HTML form behavior
-//     //event.preventDefault();
-//     cityInputHandler();
-// });
-
 searchCityButtonEl.addEventListener("click", cityInputHandler);
