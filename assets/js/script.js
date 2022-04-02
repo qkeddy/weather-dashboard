@@ -38,19 +38,28 @@ function loadStoredCities(singleCity) {
         cityEl.attributes = "city";
         cityListEl.appendChild(cityEl);
 
+        // Isolate the button that is active and toggle off the property and make the new city active
+        if (singleCity) {
+            const activeEl = document.querySelector(".active");
+            if (activeEl) {
+                activeEl.classList.remove("active");
+            }
+            // Then toggle on the button that was just clicked
+            cityEl.classList = "list-group-item city-list active";
+        }
+
         // Make each element clickable
         cityEl.addEventListener("click", function (event) {
             // Isolate the button that is active and toggle off the property
             const activeEl = document.querySelector(".active");
             if (activeEl) {
-                const classes = activeEl.classList;
-                classes.remove("active");
+                activeEl.classList.remove("active");
             }
 
             // Then toggle on the button that was just clicked
             cityEl.classList = "list-group-item city-list active";
 
-            // Reach into localstorage and populate cityCoordinates
+            // Reach into local storage and populate cityCoordinates for the selected city
             cityList = JSON.parse(localStorage.getItem("cityList"));
 
             let cityCoordinates = {
