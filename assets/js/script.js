@@ -225,7 +225,9 @@ function updatePage(data, cityCoordinates) {
     currentConditionsEl.children[1].children[3].classList = `list-group-item ${uvIndexStyle}`;
 
     // Set the daily forecast
-    data.daily.forEach((element, i) => {
+    for (let i = 0; i < 5; i++) {
+        let element = data.daily[i];
+
         // initialize a page element with an incremented counter to account for the ID names
         let forecastEl = document.querySelector(`#day${i + 1}`);
 
@@ -233,6 +235,7 @@ function updatePage(data, cityCoordinates) {
         let forecastDate = new Date(element.dt * 1000)
             .toLocaleDateString("en-US")
             .slice(0, -5);
+        console.log("date ", forecastDate);
         forecastEl.children[0].children[0].textContent = forecastDate;
         forecastEl.children[0].children[1].setAttribute(
             "src",
@@ -247,7 +250,7 @@ function updatePage(data, cityCoordinates) {
         forecastEl.children[1].children[2].textContent = `Hum: ${parseInt(
             element.humidity
         )}%`;
-    });
+    }
 }
 
 /**
