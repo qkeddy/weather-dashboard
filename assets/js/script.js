@@ -117,15 +117,15 @@ function getCityCoordinates(city) {
                     // Stringify and write data to local storage
                     localStorage.setItem("cityList", JSON.stringify(cityList));
 
-                    console.log(`Latitude and longitude for ${city} retrieved`);
+                    // Add city to side bar
+                    loadStoredCities(city);
 
-                    return true;
+                    console.log(
+                        `Latitude and longitude for ${city} retrieved and added to side bar`
+                    );
                 });
             } else {
                 console.log(`${city} is not a valid city name`);
-
-                // Not a valid city, so return false
-                return false;
             }
         });
     }
@@ -144,9 +144,8 @@ function getCityWeather(cityCoordinates) {
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-
                 updatePage(data, cityCoordinates);
-  
+
                 console.log(
                     "Current and forecast conditions successfully retrieved"
                 );
@@ -160,25 +159,9 @@ function getCityWeather(cityCoordinates) {
 }
 
 /**
- * ! Search for a city
- */
-var cityInputHandler = function () {
-    var city = cityInputEl.value.trim();
-
-    // TODO - If city is not valid or is a duplicate, then surface that to the user
-    if (city) {
-        // Get the city coordinates and check to see if the city is valid
-        if (getCityCoordinates(city)) {
-            loadStoredCities(city);
-        }
-        cityInputEl.value = "";
-    }
-};
-
-/**
  * Refresh the page with the weather data for the selected city
- * @param {*} data 
- * @param {*} cityCoordinates 
+ * @param {*} data
+ * @param {*} cityCoordinates
  */
 function updatePage(data, cityCoordinates) {
     // Set the current conditions
@@ -239,16 +222,23 @@ function init() {
     loadStoredCities();
 }
 
-
 init();
 
 /**
  * ! Event listener to search for new cities that are input
  */
-//searchCityButtonEl.addEventListener("click", cityInputHandler);
-
 searchCityFormEl.addEventListener("submit", function (event) {
     // Prevent default behavior
     event.preventDefault();
-    cityInputHandler();
+
+    var city = cityInputEl.value.trim();
+
+    // TODO - If city is not valid or is a duplicate, then surface that to the user
+    if (city) {
+        // Get the city coordinates and check to see if the city is valid
+        getCityCoordinates(city);
+
+        // Clear out input box
+        cityInputEl.value = "";
+    }
 });
