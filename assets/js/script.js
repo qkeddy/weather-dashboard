@@ -50,7 +50,6 @@ function loadStoredCities(singleCity) {
             // Then toggle on the button that was just clicked
             cityEl.classList = "list-group-item city-list active";
 
-            // Fetch weather forecast
             // Reach into localstorage and populate cityCoordinates
             cityList = JSON.parse(localStorage.getItem("cityList"));
 
@@ -120,6 +119,9 @@ function getCityCoordinates(city) {
                     // Add city to side bar
                     loadStoredCities(city);
 
+                    // Set newly added city to focus
+                    getCityWeather(cityCoordinates);
+
                     console.log(
                         `Latitude and longitude for ${city} retrieved and added to side bar`
                     );
@@ -159,7 +161,7 @@ function getCityWeather(cityCoordinates) {
 }
 
 /**
- * Refresh the page with the weather data for the selected city
+ * ! Refresh the page with the weather data for the selected city
  * @param {*} data
  * @param {*} cityCoordinates
  */
