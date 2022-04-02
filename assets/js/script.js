@@ -128,7 +128,26 @@ function getCityCoordinates(city) {
                     );
                 });
             } else {
-                console.log(`${city} is not a valid city name`);
+                // Find element for invalid city
+                let invalidCityEl = document.querySelector("#invalid-city");
+
+                // Set color to red to notify the user
+                invalidCityEl.setAttribute(
+                    "style",
+                    "text-align: center; color: red;"
+                );
+                invalidCityEl.textContent = `"${city}" is not a valid city name`;
+
+                // Display invalid city for 2 seconds
+                setTimeout(function () {
+                    invalidCityEl.setAttribute(
+                        "style",
+                        "text-align: center; color: white;"
+                    );
+                    invalidCityEl.textContent = "-";
+                }, 2000);
+
+                console.log(`"${city}" is not a valid city name`);
             }
         });
     }
@@ -179,9 +198,15 @@ function updatePage(data, cityCoordinates) {
         `Icon of ${data.current.weather[0].description}`
     );
     currentConditionsEl.children[0].children[2].textContent = `${data.current.weather[0].description}`;
-    currentConditionsEl.children[1].children[0].textContent = `Temperature: ${parseInt(data.current.temp)} F`;
-    currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${parseInt(data.current.wind_speed)} mph`;
-    currentConditionsEl.children[1].children[2].textContent = `Humidity: ${parseInt(data.current.humidity)}%`;
+    currentConditionsEl.children[1].children[0].textContent = `Temperature: ${parseInt(
+        data.current.temp
+    )} F`;
+    currentConditionsEl.children[1].children[1].textContent = `Wind Speed: ${parseInt(
+        data.current.wind_speed
+    )} mph`;
+    currentConditionsEl.children[1].children[2].textContent = `Humidity: ${parseInt(
+        data.current.humidity
+    )}%`;
     currentConditionsEl.children[1].children[3].textContent = `UV Index: ${data.current.uvi}`;
 
     // Color code the UV Index
@@ -210,12 +235,18 @@ function updatePage(data, cityCoordinates) {
             .slice(0, -5);
         forecastEl.children[0].children[0].textContent = forecastDate;
         forecastEl.children[0].children[1].setAttribute(
-        "src",
-        `http://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`
-    );
-        forecastEl.children[1].children[0].textContent = `Temp: ${parseInt(element.temp.day)} F`;
-        forecastEl.children[1].children[1].textContent = `Wind: ${parseInt(element.wind_speed)} mph`;
-        forecastEl.children[1].children[2].textContent = `Hum: ${parseInt(element.humidity)}%`;
+            "src",
+            `http://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`
+        );
+        forecastEl.children[1].children[0].textContent = `Temp: ${parseInt(
+            element.temp.day
+        )} F`;
+        forecastEl.children[1].children[1].textContent = `Wind: ${parseInt(
+            element.wind_speed
+        )} mph`;
+        forecastEl.children[1].children[2].textContent = `Hum: ${parseInt(
+            element.humidity
+        )}%`;
     });
 }
 
@@ -238,7 +269,7 @@ searchCityFormEl.addEventListener("submit", function (event) {
 
     var city = cityInputEl.value.trim();
 
-    // TODO - If city is not valid or is a duplicate, then surface that to the user
+    // If text was entered, the attempt to get the city coordinates
     if (city) {
         // Get the city coordinates and check to see if the city is valid
         getCityCoordinates(city);
